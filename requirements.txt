@@ -1,0 +1,6 @@
+selenium
+locust
+requests
+beautifulsoup4
+webdriver-manager
+pytest
