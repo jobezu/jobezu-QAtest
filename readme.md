@@ -13,6 +13,8 @@ Para realizar estas pruebas, necesitará lo siguiente:
     *   Python
     *   Pip
     *   Pytest
+    *   allure
+    *   allure pytest
     *   selenium
     *   locust
     *   requests
@@ -29,21 +31,34 @@ Para realizar estas pruebas, necesitará lo siguiente:
     *   Descargar Python desde [https://www.python.org/downloads/]
     *   Asegúrese de seleccionar la opción de añadir Python a su PATH durante la instalación.
 
+1.  **Instalar Eclipse Temurin JDK:**
+    *   Descargar Eclipse Temurin JDK anteriormente AdoptOpenJDK) desde [https://adoptium.net/]
+    *   Asegúrese de seleccionar la opción de añadir Eclipse Temurin JDK a su PATH durante la instalación.
 
-2.  **Crear un entorno virtual (recomendado):**
-    ```
-    python -m venv venv
-    source venv/bin/activate # En macOS/Linux
-    venv\Scripts\activate.bat # En Windows
-    ```
 
-3.  **Instalar dependencias:**
+3.  **Configurar el entorno:**
     ```
     pip install -r requisitos.txt
-*   Allure pytest Plugin Version: 2.13.5
-*   crear Configuration File: `pytest.ini`
+    ```
+*   Instalar Scoop, Scoop es un instalador de línea de comandos para Windows:
+
+    Abra PowerShell como administrador.
+
+    Ejecute el siguiente comando en PowerShell:
 
     ```
+    Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+    iex "& { $(irm get.scoop.sh) } -RunAsAdmin"
+    ```
+*   Instalar Allure:
+
+    Ejecute el siguiente comando en PowerShell:
+    ```
+    scoop install allure
+    ```
+    Esto agregará automáticamente Allure a tu PATH.
+
+
 
 ## Ejecución de las pruebas
 
@@ -53,8 +68,8 @@ Para realizar estas pruebas, necesitará lo siguiente:
         ```
         Este archivo ejecutará el siguiente script:
         @echo off
-        pytest --alluredir=allure-results
-        allure serve allure-results
+        pytest --alluredir=QA-tests-results
+        allure serve QA-tests-results
 
         Lo que simplifica el proceso de ejecución de las pruebas y la generación del informe de Allure.
 
@@ -62,25 +77,31 @@ Para realizar estas pruebas, necesitará lo siguiente:
 
 2.  **Pruebas de estrés de Locust:**
     * Navegue hasta el directorio que contiene el archivo `locustfile.py`.
-    * Ejecuta Locust usando el siguiente comando:
+    * Existen dos maneras de ejecutar Locust 
+    
+        1. Usando el siguiente comando:
         ```
 
-        locust -f locustfile.py -u 200 -r 10 --headless --run-time 10m --html=locust_report.html --host=https://the-internet.herokuapp.com
+        locust -f locustfile.py -u 200 -r 10 --headless --html=./locust_report.html --host=https://the-internet.herokuapp.com
         ```
+        2. utilizando el siguiente comando:
+
+        ```
+
+        locust -f locustfile.py -u 200 -r 10 --headless --html=./locust_report.html --host=https://the-internet.herokuapp.com
+        ```
+        en ingresando a la web UI: [http://localhost:8089/]
+
         *   `-u 200`: Simula 200 usuarios simultáneos.
         *   `-r 10`: Crea 10 usuarios por segundo.
         *   `--headless`: Ejecuta Locust en modo headless (no web UI).
-        *   `--run-time 10m`: Realiza la prueba durante 10 minutos.
         *   `--html=locust_report.html`: Genera un informe HTML denominado `locust_report.html`.
         *   `--host=https://the-internet.herokuapp.com`: Especifica el host de destino.
 
 3.  **Analizar los resultados:**
-    * Para las pruebas Selenium, revise la salida en la consola.
+    * Para las pruebas Selenium, revise el reporte generado por allure que aparece al finalizar la ejecución del archivo `run_tests.bat`  
     * Para las pruebas Locust, abra el archivo `locust_report.html` en su navegador para analizar los resultados, incluyendo:
         * Tiempos de respuesta
         * Tasas de éxito/fracaso
         * Peticiones por segundo
 
-## Informe
-
-En el archivo `locust_report.html` se incluye un informe detallado de los resultados de la prueba (incluidos los tiempos de respuesta, las tasas de éxito/fracaso y el rendimiento general del sitio bajo carga).
