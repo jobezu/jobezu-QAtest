@@ -105,3 +105,8 @@ Para realizar estas pruebas, necesitará lo siguiente:
         * Tasas de éxito/fracaso
         * Peticiones por segundo
 
+## Enlace de video Ejecución de las pruebas
+        ```
+        [https://youtu.be/_369Z8ETYoU]
+
+        ```
