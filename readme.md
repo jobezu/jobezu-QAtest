@@ -106,7 +106,5 @@ Para realizar estas pruebas, necesitará lo siguiente:
         * Peticiones por segundo
 
 ## Enlace de video Ejecución de las pruebas
-        ```
+        
         [https://youtu.be/_369Z8ETYoU]
-
-        ```
